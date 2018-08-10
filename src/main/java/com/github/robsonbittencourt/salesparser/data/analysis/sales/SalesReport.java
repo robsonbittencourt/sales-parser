@@ -3,17 +3,14 @@ package com.github.robsonbittencourt.salesparser.data.analysis.sales;
 import com.github.robsonbittencourt.salesparser.data.analysis.DataAnalisys;
 import com.github.robsonbittencourt.salesparser.domain.DataType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SalesReport implements DataAnalisys {
 
-    private List<ReportItem> reportItems = new ArrayList<>();
+    private List<ReportItem> reportItems;
 
-    public SalesReport() {
-        reportItems.add(new CustomerQuantity());
-        reportItems.add(new SalesmanQuantity());
-        reportItems.add(new MoreExpensiveSale());
+    public SalesReport(List<ReportItem> reportItems) {
+        this.reportItems = reportItems;
     }
 
     @Override
