@@ -13,24 +13,24 @@ public enum DataTypes {
     CUSTOMER("002", Customer.class, new CustomerLineParser()),
     SALE("003", Sale.class, new SaleParser());
 
-    private String code;
+    private String id;
     private Class<? extends DataType> dataType;
     private LineParser lineParser;
 
-    DataTypes(String code, Class<? extends DataType> dataType, LineParser lineParser) {
-        this.code = code;
+    DataTypes(String id, Class<? extends DataType> dataType, LineParser lineParser) {
+        this.id = id;
         this.dataType = dataType;
         this.lineParser = lineParser;
     }
 
-    public static DataTypes getByCode(String code) {
+    public static DataTypes getByCode(String id) {
         for (DataTypes dataTypes : values()) {
-            if (dataTypes.getCode().equals(code)) {
+            if (dataTypes.getId().equals(id)) {
                 return dataTypes;
             }
         }
 
-        throw new IllegalArgumentException("Invalid code: " + code);
+        throw new IllegalArgumentException("Invalid code: " + id);
     }
 
     public DataType parseLine(String entry) {

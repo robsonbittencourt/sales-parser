@@ -1,7 +1,7 @@
-package com.github.robsonbittencourt.salesparser.domain;
+package com.github.robsonbittencourt.salesparser.file.parser;
 
-import com.github.robsonbittencourt.salesparser.file.parser.LineParser;
-import com.github.robsonbittencourt.salesparser.file.parser.SaleParser;
+import com.github.robsonbittencourt.salesparser.domain.Sale;
+import com.github.robsonbittencourt.salesparser.domain.SaleItem;
 import org.junit.Test;
 
 import java.math.BigDecimal;

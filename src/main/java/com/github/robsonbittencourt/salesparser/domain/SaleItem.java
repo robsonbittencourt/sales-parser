@@ -13,4 +13,8 @@ public class SaleItem implements DataType {
     private int quantity;
     private BigDecimal price;
 
+    public BigDecimal getTotalValue() {
+        return price.multiply(new BigDecimal(quantity));
+    }
+
 }

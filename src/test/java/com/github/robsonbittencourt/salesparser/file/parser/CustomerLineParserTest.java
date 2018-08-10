@@ -1,5 +1,6 @@
-package com.github.robsonbittencourt.salesparser.domain;
+package com.github.robsonbittencourt.salesparser.file.parser;
 
+import com.github.robsonbittencourt.salesparser.domain.Customer;
 import com.github.robsonbittencourt.salesparser.file.parser.CustomerLineParser;
 import com.github.robsonbittencourt.salesparser.file.parser.LineParser;
 import org.junit.Test;
