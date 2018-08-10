@@ -3,6 +3,7 @@ package com.github.robsonbittencourt.salesparser.file.domain;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import com.github.robsonbittencourt.salesparser.exception.InvalidLineEntryException;
 import org.junit.Test;
 
 public class SalesmanLineParserTest {

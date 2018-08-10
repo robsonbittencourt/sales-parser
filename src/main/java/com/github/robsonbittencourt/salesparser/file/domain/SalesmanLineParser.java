@@ -1,5 +1,7 @@
 package com.github.robsonbittencourt.salesparser.file.domain;
 
+import com.github.robsonbittencourt.salesparser.exception.InvalidLineEntryException;
+
 import java.math.BigDecimal;
 
 class SalesmanLineParser implements LineParser {
