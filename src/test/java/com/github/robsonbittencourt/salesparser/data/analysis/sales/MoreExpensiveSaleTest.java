@@ -27,6 +27,13 @@ public class MoreExpensiveSaleTest {
     }
 
     @Test
+    public void shouldReturnEmptyStringWhenDoesNotHaveMoreExpensiveSale() {
+        ReportItem reportItem = new MoreExpensiveSale();
+
+        assertEquals("", reportItem.value());
+    }
+
+    @Test
     public void shouldCountCustomerWhenProcess() {
         List<SaleItem> items1 = new ArrayList<>();
         items1.add(new SaleItem(1l, 10, new BigDecimal("5.35")));
