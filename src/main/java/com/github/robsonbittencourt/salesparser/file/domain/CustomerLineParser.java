@@ -1,31 +1,28 @@
 package com.github.robsonbittencourt.salesparser.file.domain;
 
-import com.github.robsonbittencourt.salesparser.exception.InvalidLineEntryException;
+class CustomerLineParser extends AbstractLineParser {
 
-import java.math.BigDecimal;
-
-class CustomerLineParser implements LineParser {
-
-    public static final String SEPARATOR = "ç";
     public static final int CNPJ_POSITION = 1;
     public static final int NAME_POSITION = 2;
     public static final int BUSINESS_AREA_POSITION = 3;
 
     @Override
     public Customer parseLine(String line) {
-        String[] fields = line.split(SEPARATOR);
+        String cnpj = getString(line, CNPJ_POSITION);
+        String name = getString(line, NAME_POSITION);
+        String businessArea = getString(line, BUSINESS_AREA_POSITION);
 
-        validateFieldMatch(fields);
-
-        return new Customer(fields[CNPJ_POSITION], fields[NAME_POSITION], fields[BUSINESS_AREA_POSITION]);
+        return new Customer(cnpj, name, businessArea);
     }
 
-    private void validateFieldMatch(String[] fields) {
-        int customerFieldQuantity = 4;
+    @Override
+    protected String separator() {
+        return "ç";
+    }
 
-        if (fields.length != customerFieldQuantity) {
-            throw new InvalidLineEntryException("The line doesn't match with customer information");
-        }
+    @Override
+    protected int fieldsQuantity() {
+        return 4;
     }
 
 }
