@@ -1,21 +1,31 @@
 package com.github.robsonbittencourt.salesparser;
 
-import com.github.robsonbittencourt.salesparser.data.analysis.DataAnalisys;
-import com.github.robsonbittencourt.salesparser.data.analysis.DataAnalisysFactory;
-import com.github.robsonbittencourt.salesparser.file.FileParser;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.List;
+import java.util.concurrent.Executor;
 
+@EnableAsync
+@EnableScheduling
 @SpringBootApplication
 public class SalesParserApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SalesParserApplication.class, args);
+    public static void main(String[] args) {
+        SpringApplication.run(SalesParserApplication.class, args);
+    }
 
-        List<DataAnalisys> dataAnalisys = DataAnalisysFactory.get();
+    @Bean(name = "async-task-executor")
+    public Executor asyncExecutor() {
+        final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(20);
+        executor.setMaxPoolSize(20);
+        executor.setThreadNamePrefix("async-task-executor");
+        executor.initialize();
+        return executor;
+    }
 
-        new FileParser(dataAnalisys).readFile("/home/robson/teste.dat");
-	}
 }
