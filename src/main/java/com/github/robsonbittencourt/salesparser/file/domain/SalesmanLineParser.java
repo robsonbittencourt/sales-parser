@@ -37,7 +37,7 @@ class SalesmanLineParser implements LineParser {
         try {
             new BigDecimal(fields[SALARY_POSITION]);
         } catch (NumberFormatException e) {
-            throw new InvalidLineEntryException("Invalid salary: " + fields[3]);
+            throw new InvalidLineEntryException("Invalid salary: " + fields[SALARY_POSITION]);
         }
     }
 
