@@ -1,8 +1,10 @@
-package com.github.robsonbittencourt.salesparser.file.domain;
+package com.github.robsonbittencourt.salesparser.file.parser;
+
+import com.github.robsonbittencourt.salesparser.domain.SaleItem;
 
 import java.math.BigDecimal;
 
-class SaleItemParser extends AbstractLineParser implements LineParser {
+final class SaleItemParser extends AbstractLineParser implements LineParser {
 
     public static final int ID_POSITION = 0;
     public static final int QUANTITY_POSITION = 1;

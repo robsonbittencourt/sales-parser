@@ -1,4 +1,4 @@
-package com.github.robsonbittencourt.salesparser.file.domain;
+package com.github.robsonbittencourt.salesparser.domain;
 
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;

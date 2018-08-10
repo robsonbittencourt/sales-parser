@@ -1,9 +1,12 @@
-package com.github.robsonbittencourt.salesparser.file.domain;
+package com.github.robsonbittencourt.salesparser.file.parser;
+
+import com.github.robsonbittencourt.salesparser.domain.Sale;
+import com.github.robsonbittencourt.salesparser.domain.SaleItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SaleParser extends AbstractLineParser {
+final class SaleParser extends AbstractLineParser {
 
     public static final int ID_POSITION = 1;
     public static final int SALE_ITEMS_POSITION = 2;

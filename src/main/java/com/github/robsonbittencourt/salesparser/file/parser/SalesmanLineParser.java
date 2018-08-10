@@ -1,8 +1,10 @@
-package com.github.robsonbittencourt.salesparser.file.domain;
+package com.github.robsonbittencourt.salesparser.file.parser;
+
+import com.github.robsonbittencourt.salesparser.domain.Salesman;
 
 import java.math.BigDecimal;
 
-class SalesmanLineParser extends AbstractLineParser {
+final class SalesmanLineParser extends AbstractLineParser {
 
     public static final int CPF_POSITION = 1;
     public static final int NAME_POSITION = 2;

@@ -1,6 +1,8 @@
-package com.github.robsonbittencourt.salesparser.file.domain;
+package com.github.robsonbittencourt.salesparser.file.parser;
 
-class CustomerLineParser extends AbstractLineParser {
+import com.github.robsonbittencourt.salesparser.domain.Customer;
+
+final class CustomerLineParser extends AbstractLineParser {
 
     public static final int CNPJ_POSITION = 1;
     public static final int NAME_POSITION = 2;

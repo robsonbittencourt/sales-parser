@@ -1,10 +1,10 @@
-package com.github.robsonbittencourt.salesparser.file.domain;
+package com.github.robsonbittencourt.salesparser.file.parser;
 
 import com.github.robsonbittencourt.salesparser.exception.InvalidLineEntryException;
 
 import java.math.BigDecimal;
 
-public abstract class AbstractLineParser implements LineParser {
+abstract class AbstractLineParser implements LineParser {
 
     protected abstract String separator();
 
