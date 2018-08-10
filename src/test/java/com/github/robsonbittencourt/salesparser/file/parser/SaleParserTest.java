@@ -19,7 +19,7 @@ public class SaleParserTest {
         Sale saleEntry = (Sale)parser.parseLine(lineEntry);
 
         assertEquals(new Long(10), saleEntry.getId());
-        assertEquals("Pedro", saleEntry.getName());
+        assertEquals("Pedro", saleEntry.getSalesmanName());
 
         List<SaleItem> items = saleEntry.getItems();
         assertEquals(3, items.size());

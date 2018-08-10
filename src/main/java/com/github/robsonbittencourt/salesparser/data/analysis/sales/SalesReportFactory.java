@@ -13,6 +13,7 @@ public class SalesReportFactory {
         reportItems.add(new CustomerQuantity());
         reportItems.add(new SalesmanQuantity());
         reportItems.add(new MoreExpensiveSale());
+        reportItems.add(new WorseSalesman());
 
         return new SalesReport(reportItems);
     }

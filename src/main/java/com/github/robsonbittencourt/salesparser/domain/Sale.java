@@ -12,7 +12,7 @@ public class Sale implements DataType, Comparable<Sale> {
 
     private Long id;
     private List<SaleItem> items;
-    private String name;
+    private String salesmanName;
 
     public BigDecimal getSaleValue() {
         return items.stream()
