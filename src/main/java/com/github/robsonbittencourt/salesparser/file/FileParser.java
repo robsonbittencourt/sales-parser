@@ -3,44 +3,60 @@ package com.github.robsonbittencourt.salesparser.file;
 import com.github.robsonbittencourt.salesparser.data.analysis.DataAnalisys;
 import com.github.robsonbittencourt.salesparser.domain.DataType;
 import com.github.robsonbittencourt.salesparser.file.parser.DataTypes;
+import com.github.robsonbittencourt.salesparser.file.utilities.FileDirectoryService;
+import com.github.robsonbittencourt.salesparser.file.utilities.FileMoveService;
+import com.github.robsonbittencourt.salesparser.file.utilities.FileReaderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.File;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Consumer;
 
+@Service
 public class FileParser {
 
+    @Autowired
     private List<DataAnalisys> posActions;
 
-    public FileParser(List<DataAnalisys> posActions) {
-        this.posActions = posActions;
-    }
+    @Autowired
+    private FileReaderService fileReaderService;
+
+    @Autowired
+    private FileDirectoryService fileDirectoryService;
+
+    @Autowired
+    private FileMoveService fileMoveService;
 
     public void readFile(String path) {
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String code = extractDataTypeId(line);
+        processLines(path);
+        moveProcessedFile(path);
+    }
 
-                DataType entry = DataTypes.getByCode(code).parseLine(line);
+    private void processLines(String path) {
+        Consumer<String> consumeLine = (line) -> {
+            String code = extractDataTypeId(line);
 
-                executePosActions(entry);
-            }
+            DataType entry = DataTypes.getByCode(code).parseLine(line);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            this.posActions.stream().forEach(p -> p.processEntry(entry));
+        };
 
-        this.posActions.forEach(p -> p.allEntriesProcessed());
+        fileReaderService.readFileLines(path, consumeLine);
     }
 
     private String extractDataTypeId(String line) {
         return line.substring(0, 3);
     }
 
-    private void executePosActions(DataType entry) {
-        this.posActions.stream().forEach(p -> p.processEntry(entry));
+    private void moveProcessedFile(String path) {
+        File destinationFolder = fileDirectoryService.getDirectory("/data/processed/");
+
+        String fileName = path.replaceAll(System.getProperty("user.home") + "/data/in/", "");
+        fileName = LocalDateTime.now().toString() + "-" + fileName;
+
+        fileMoveService.moveFile(path, destinationFolder.getPath() + "/" + fileName);
     }
 
 }

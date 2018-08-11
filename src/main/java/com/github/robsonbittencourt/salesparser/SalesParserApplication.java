@@ -20,11 +20,13 @@ public class SalesParserApplication {
 
     @Bean(name = "async-task-executor")
     public Executor asyncExecutor() {
-        final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+
         executor.setCorePoolSize(20);
         executor.setMaxPoolSize(20);
         executor.setThreadNamePrefix("async-task-executor");
         executor.initialize();
+
         return executor;
     }
 

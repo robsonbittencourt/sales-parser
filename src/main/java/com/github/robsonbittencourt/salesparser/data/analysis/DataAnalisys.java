@@ -6,6 +6,6 @@ public interface DataAnalisys {
 
     void processEntry(DataType entry);
 
-    void allEntriesProcessed();
+    void allFilesProcessed();
 
 }

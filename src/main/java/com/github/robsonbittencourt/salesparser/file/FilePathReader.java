@@ -14,6 +14,8 @@ public class FilePathReader {
 
         File directory = new File(System.getProperty("user.home")+"/data/in");
 
+        File[] files = directory.listFiles();
+
         for (File file : directory.listFiles()) {
             if (isDatFile(file)) {
                 datFilesPaths.add(file.getAbsolutePath());

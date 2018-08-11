@@ -2,10 +2,22 @@ package com.github.robsonbittencourt.salesparser.data.analysis.sales;
 
 import com.github.robsonbittencourt.salesparser.domain.DataType;
 import com.github.robsonbittencourt.salesparser.domain.Sale;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
-public class MoreExpensiveSale extends ReportItem {
+import java.math.BigDecimal;
 
-    private Sale moreExpensiveSale;
+@Service
+public class MoreExpensiveSale extends SalesReportItem {
+
+    private static final int SALE_ID_POSITION = 0;
+    private static final int SALE_VALUE_POSITION = 1;
+
+    @Value("${consolidated.data.separator}")
+    private String separator;
+
+    private String moreExpensiveSaleId;
+    private BigDecimal moreExpensiveSaleValue;
 
     @Override
     public String description() {
@@ -14,11 +26,18 @@ public class MoreExpensiveSale extends ReportItem {
 
     @Override
     public String value() {
-        if (moreExpensiveSale == null) {
-            return "";
-        }
+        return moreExpensiveSaleId;
+    }
 
-        return moreExpensiveSale.getId().toString();
+    @Override
+    public String allValues() {
+        return moreExpensiveSaleId + separator + moreExpensiveSaleValue;
+    }
+
+    @Override
+    public void receiveValues(String[] line) {
+        moreExpensiveSaleId = line[SALE_ID_POSITION];
+        moreExpensiveSaleValue = new BigDecimal(line[SALE_VALUE_POSITION]);
     }
 
     @Override
@@ -30,8 +49,10 @@ public class MoreExpensiveSale extends ReportItem {
     protected void processEntry(DataType entry) {
         Sale sale = (Sale) entry;
 
-        if (moreExpensiveSale == null || sale.compareTo(moreExpensiveSale) > 0) {
-            moreExpensiveSale = sale;
+        if (moreExpensiveSaleValue == null || sale.getSaleValue().compareTo(moreExpensiveSaleValue) > 0) {
+            moreExpensiveSaleId = sale.getId().toString();
+            moreExpensiveSaleValue = sale.getSaleValue();
         }
     }
+
 }

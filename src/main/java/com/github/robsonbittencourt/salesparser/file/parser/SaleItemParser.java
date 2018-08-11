@@ -1,9 +1,11 @@
 package com.github.robsonbittencourt.salesparser.file.parser;
 
 import com.github.robsonbittencourt.salesparser.domain.SaleItem;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+@Service
 final class SaleItemParser extends AbstractLineParser implements LineParser {
 
     public static final int ID_POSITION = 0;

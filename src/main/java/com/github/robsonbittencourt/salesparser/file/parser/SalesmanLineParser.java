@@ -1,9 +1,11 @@
 package com.github.robsonbittencourt.salesparser.file.parser;
 
 import com.github.robsonbittencourt.salesparser.domain.Salesman;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+@Service
 final class SalesmanLineParser extends AbstractLineParser {
 
     public static final int CPF_POSITION = 1;

@@ -1,11 +1,16 @@
 package com.github.robsonbittencourt.salesparser.file;
 
+import com.github.robsonbittencourt.salesparser.data.analysis.DataAnalisys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class FileProcessScheduler {
 
@@ -15,11 +20,38 @@ public class FileProcessScheduler {
     @Autowired
     private FileProcess fileProcess;
 
-    @Scheduled(fixedDelay = 10000)
+    @Autowired
+    private List<DataAnalisys> posActions;
+
+    @Scheduled(fixedDelay = 5000)
     public void processPaths() {
+        long initTime = System.currentTimeMillis();
+
         List<String> paths = pathReader.datFilesToProcess();
 
-        paths.stream().forEach(p -> fileProcess.process(p));
+        if (paths.isEmpty()) {
+            log.info("No files to process.");
+            return;
+        }
+
+        log.info("Starting file processing. " + paths.size() + " files to be processed.");
+
+        processFiles(paths);
+
+        posActions.forEach(DataAnalisys::allFilesProcessed);
+
+        log.info("End of file processing. Elapsed time: " + (System.currentTimeMillis() - initTime) + " milliseconds.");
+    }
+
+    private void processFiles(List<String> paths) {
+        List<Future<String>> readFilesFuture = paths.stream().map(p -> fileProcess.process(p)).collect(Collectors.toList());
+        while (true) {
+            boolean hasFutureNotCompleted = readFilesFuture.stream().filter(r -> !r.isDone()).findAny().isPresent();
+
+            if (!hasFutureNotCompleted) {
+                break;
+            }
+        }
     }
 
 }

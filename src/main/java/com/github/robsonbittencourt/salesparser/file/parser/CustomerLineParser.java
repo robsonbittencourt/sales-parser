@@ -1,7 +1,9 @@
 package com.github.robsonbittencourt.salesparser.file.parser;
 
 import com.github.robsonbittencourt.salesparser.domain.Customer;
+import org.springframework.stereotype.Service;
 
+@Service
 final class CustomerLineParser extends AbstractLineParser {
 
     public static final int CNPJ_POSITION = 1;

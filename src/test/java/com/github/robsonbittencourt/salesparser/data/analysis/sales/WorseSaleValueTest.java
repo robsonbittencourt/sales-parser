@@ -14,33 +14,33 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class MoreExpensiveSaleTest {
+public class WorseSaleValueTest {
 
     @InjectMocks
-    private MoreExpensiveSale moreExpensiveSale;
+    private WorseSaleValue worseSaleValue;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        ReflectionTestUtils.setField(moreExpensiveSale, "separator", ":");
+        ReflectionTestUtils.setField(worseSaleValue, "separator", ":");
     }
 
     @Test
     public void shouldReturnCorrectDescription() {
-        String description = moreExpensiveSale.description();
+        String description = worseSaleValue.description();
 
-        assertEquals("ID da venda mais cara", description);
+        assertEquals("O pior vendedor", description);
     }
 
     @Test
     public void shouldReturnCorrectDataType() {
-        Class<?> clazz = moreExpensiveSale.dataType();
+        Class<?> clazz = worseSaleValue.dataType();
 
         assertEquals(Sale.class, clazz);
     }
 
     @Test
-    public void shouldCountSaleValueWhenProcess() {
+    public void shouldCountWorseSalesmanWhenProcess() {
         List<SaleItem> items1 = new ArrayList<>();
         items1.add(new SaleItem(1l, 10, new BigDecimal("5.35")));
         items1.add(new SaleItem(2l, 50, new BigDecimal("170.15")));
@@ -60,11 +60,11 @@ public class MoreExpensiveSaleTest {
         Sale sale2 = new Sale(20l, items2, "Lucy");
         Sale sale3 = new Sale(30l, items3, "Andrea");
 
-        moreExpensiveSale.processEntry(sale1);
-        moreExpensiveSale.processEntry(sale2);
-        moreExpensiveSale.processEntry(sale3);
+        worseSaleValue.processEntry(sale1);
+        worseSaleValue.processEntry(sale2);
+        worseSaleValue.processEntry(sale3);
 
-        assertEquals("10", moreExpensiveSale.value());
+        assertEquals("Andrea", worseSaleValue.value());
     }
 
     @Test
@@ -88,22 +88,24 @@ public class MoreExpensiveSaleTest {
         Sale sale2 = new Sale(20l, items2, "Lucy");
         Sale sale3 = new Sale(30l, items3, "Andrea");
 
-        moreExpensiveSale.processEntry(sale1);
-        moreExpensiveSale.processEntry(sale2);
-        moreExpensiveSale.processEntry(sale3);
+        worseSaleValue.processEntry(sale1);
+        worseSaleValue.processEntry(sale2);
+        worseSaleValue.processEntry(sale3);
 
-        String allValues = moreExpensiveSale.allValues();
+        String allValues = worseSaleValue.allValues();
 
-        assertEquals("10:9016.40", allValues);
+        assertEquals("Lucy:8369.29\n" +
+                "Maria:9016.40\n" +
+                "Andrea:7885.00\n", allValues);
     }
 
     @Test
     public void shouldAddMoreExpensiveSaleUsingLine() {
-        String moreExpensiveSaleLine = "15:720053.50";
+        String moreExpensiveSaleLine = "Paulo:252169110.00";
 
-        moreExpensiveSale.receiveValues(moreExpensiveSaleLine.split(":"));
+        worseSaleValue.receiveValues(moreExpensiveSaleLine.split(":"));
 
-        assertEquals("15", moreExpensiveSale.value());
+        assertEquals("Paulo", worseSaleValue.value());
     }
 
 }

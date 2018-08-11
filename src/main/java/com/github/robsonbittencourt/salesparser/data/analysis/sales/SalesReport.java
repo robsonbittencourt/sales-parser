@@ -2,15 +2,53 @@ package com.github.robsonbittencourt.salesparser.data.analysis.sales;
 
 import com.github.robsonbittencourt.salesparser.data.analysis.DataAnalisys;
 import com.github.robsonbittencourt.salesparser.domain.DataType;
+import com.github.robsonbittencourt.salesparser.file.utilities.FileDirectoryService;
+import com.github.robsonbittencourt.salesparser.file.utilities.FileReaderService;
+import com.github.robsonbittencourt.salesparser.file.utilities.FileWriterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.function.Consumer;
 
+import java.io.File;
+
+@Service
 public class SalesReport implements DataAnalisys {
 
-    private List<ReportItem> reportItems;
+    private static final String DATA_CONSOLIDATED_DIRECTORY = "/data/consolidated/";
 
-    public SalesReport(List<ReportItem> reportItems) {
-        this.reportItems = reportItems;
+    @Value("${consolidated.data.separator}")
+    private String separator;
+
+    @Autowired
+    private List<SalesReportItem> reportItems;
+
+    @Autowired
+    private FileReaderService fileReaderService;
+
+    @Autowired
+    private FileWriterService fileWriterService;
+
+    @Autowired
+    private FileDirectoryService fileDirectoryService;
+
+    @PostConstruct
+    public void initData() {
+        fileDirectoryService.getDirectory(DATA_CONSOLIDATED_DIRECTORY);
+
+        for (SalesReportItem reportItem : reportItems) {
+            String path = System.getProperty("user.home") + dataConsolidedFileName(reportItem);
+
+            Consumer<String> splitLineContent = l -> reportItem.receiveValues(l.split(separator));
+
+            if (new File(path).exists()) {
+                fileReaderService.readFileLines(path, splitLineContent);
+            }
+        }
     }
 
     @Override
@@ -19,10 +57,34 @@ public class SalesReport implements DataAnalisys {
     }
 
     @Override
-    public void allEntriesProcessed() {
-        for (ReportItem reportItem : reportItems) {
-            System.out.println(reportItem.description() + ": " + reportItem.value());
+    public void allFilesProcessed() {
+        for (SalesReportItem reportItem : reportItems) {
+            String path = dataConsolidedFileName(reportItem);
+
+            fileWriterService.write(path, reportItem.allValues());
         }
+
+        fileWriterService.write(buildFileName(), this.toString());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        reportItems.forEach(r -> sb.append(r.description())
+                                   .append(separator)
+                                   .append(r.value())
+                                   .append(System.lineSeparator()));
+
+        return sb.toString();
+    }
+
+    private String dataConsolidedFileName(SalesReportItem reportItem) {
+        return DATA_CONSOLIDATED_DIRECTORY + reportItem.getClass().getSimpleName().toLowerCase();
+    }
+
+    private String buildFileName() {
+        return "/data/out/" + LocalDate.now() + ".done.dat";
     }
 
 }

@@ -2,10 +2,12 @@ package com.github.robsonbittencourt.salesparser.file.parser;
 
 import com.github.robsonbittencourt.salesparser.domain.Sale;
 import com.github.robsonbittencourt.salesparser.domain.SaleItem;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 final class SaleParser extends AbstractLineParser {
 
     public static final int ID_POSITION = 1;
