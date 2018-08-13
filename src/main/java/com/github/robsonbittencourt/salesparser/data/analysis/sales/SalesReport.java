@@ -45,7 +45,7 @@ public class SalesReport implements DataAnalisys {
         fileDirectoryService.getDirectory(DATA_CONSOLIDATED_DIRECTORY);
 
         for (SalesReportItem reportItem : reportItems) {
-            String path = fileBasePathService.getBasePath() + dataConsolidedFileName(reportItem);
+            String path = fileBasePathService.getBasePath() + dataConsolidatedFileName(reportItem);
 
             Consumer<String> splitLineContent = l -> reportItem.receiveValues(l.split(separator));
 
@@ -63,7 +63,7 @@ public class SalesReport implements DataAnalisys {
     @Override
     public void allFilesProcessed() {
         for (SalesReportItem reportItem : reportItems) {
-            String path = dataConsolidedFileName(reportItem);
+            String path = dataConsolidatedFileName(reportItem);
 
             fileWriterService.write(path, reportItem.allValues());
         }
@@ -83,7 +83,7 @@ public class SalesReport implements DataAnalisys {
         return sb.toString();
     }
 
-    private String dataConsolidedFileName(SalesReportItem reportItem) {
+    private String dataConsolidatedFileName(SalesReportItem reportItem) {
         return DATA_CONSOLIDATED_DIRECTORY + reportItem.getClass().getSimpleName().toLowerCase();
     }
 
