@@ -3,6 +3,7 @@ package com.github.robsonbittencourt.salesparser.file;
 import com.github.robsonbittencourt.salesparser.data.analysis.DataAnalisys;
 import com.github.robsonbittencourt.salesparser.domain.DataType;
 import com.github.robsonbittencourt.salesparser.file.parser.DataTypes;
+import com.github.robsonbittencourt.salesparser.file.utilities.FileBasePathService;
 import com.github.robsonbittencourt.salesparser.file.utilities.FileDirectoryService;
 import com.github.robsonbittencourt.salesparser.file.utilities.FileMoveService;
 import com.github.robsonbittencourt.salesparser.file.utilities.FileReaderService;
@@ -29,6 +30,9 @@ public class FileParser {
     @Autowired
     private FileMoveService fileMoveService;
 
+    @Autowired
+    private FileBasePathService fileBasePathService;
+
     public void readFile(String path) {
         processLines(path);
         moveProcessedFile(path);
@@ -53,7 +57,7 @@ public class FileParser {
     private void moveProcessedFile(String path) {
         File destinationFolder = fileDirectoryService.getDirectory("/data/processed/");
 
-        String fileName = path.replaceAll(System.getProperty("user.home") + "/data/in/", "");
+        String fileName = path.substring(path.lastIndexOf("/") + 1, path.length());
         fileName = LocalDateTime.now().toString() + "-" + fileName;
 
         fileMoveService.moveFile(path, destinationFolder.getPath() + "/" + fileName);

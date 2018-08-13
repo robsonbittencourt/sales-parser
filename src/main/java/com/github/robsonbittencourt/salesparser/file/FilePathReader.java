@@ -1,5 +1,7 @@
 package com.github.robsonbittencourt.salesparser.file;
 
+import com.github.robsonbittencourt.salesparser.file.utilities.FileBasePathService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -9,10 +11,13 @@ import java.util.List;
 @Service
 public class FilePathReader {
 
+    @Autowired
+    private FileBasePathService fileBasePathService;
+
     public List<String> datFilesToProcess() {
         List<String> datFilesPaths = new ArrayList<>();
 
-        File directory = new File(System.getProperty("user.home")+"/data/in");
+        File directory = new File(fileBasePathService.getBasePath() + "/data/in");
 
         File[] files = directory.listFiles();
 

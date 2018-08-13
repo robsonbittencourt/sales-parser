@@ -1,6 +1,7 @@
 package com.github.robsonbittencourt.salesparser.file;
 
 import com.github.robsonbittencourt.salesparser.data.analysis.DataAnalisys;
+import com.github.robsonbittencourt.salesparser.file.utilities.FileDirectoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -21,10 +22,17 @@ public class FileProcessScheduler {
     private FileProcess fileProcess;
 
     @Autowired
+    private FileDirectoryService fileDirectoryService;
+
+    @Autowired
     private List<DataAnalisys> posActions;
 
     @Scheduled(fixedDelay = 5000)
     public void processPaths() {
+        fileDirectoryService.getDirectory("/data");
+        fileDirectoryService.getDirectory("/data/in");
+        fileDirectoryService.getDirectory("/data/out");
+
         long initTime = System.currentTimeMillis();
 
         List<String> paths = pathReader.datFilesToProcess();

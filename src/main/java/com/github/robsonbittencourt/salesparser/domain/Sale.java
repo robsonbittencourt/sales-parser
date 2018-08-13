@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class Sale implements DataType, Comparable<Sale> {
+public class Sale implements DataType {
 
     private Long id;
     private List<SaleItem> items;
@@ -20,8 +20,4 @@ public class Sale implements DataType, Comparable<Sale> {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    @Override
-    public int compareTo(Sale sale) {
-        return this.getSaleValue().compareTo(sale.getSaleValue());
-    }
 }

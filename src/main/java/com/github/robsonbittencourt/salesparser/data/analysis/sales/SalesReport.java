@@ -2,6 +2,7 @@ package com.github.robsonbittencourt.salesparser.data.analysis.sales;
 
 import com.github.robsonbittencourt.salesparser.data.analysis.DataAnalisys;
 import com.github.robsonbittencourt.salesparser.domain.DataType;
+import com.github.robsonbittencourt.salesparser.file.utilities.FileBasePathService;
 import com.github.robsonbittencourt.salesparser.file.utilities.FileDirectoryService;
 import com.github.robsonbittencourt.salesparser.file.utilities.FileReaderService;
 import com.github.robsonbittencourt.salesparser.file.utilities.FileWriterService;
@@ -36,12 +37,15 @@ public class SalesReport implements DataAnalisys {
     @Autowired
     private FileDirectoryService fileDirectoryService;
 
+    @Autowired
+    private FileBasePathService fileBasePathService;
+
     @PostConstruct
     public void initData() {
         fileDirectoryService.getDirectory(DATA_CONSOLIDATED_DIRECTORY);
 
         for (SalesReportItem reportItem : reportItems) {
-            String path = System.getProperty("user.home") + dataConsolidedFileName(reportItem);
+            String path = fileBasePathService.getBasePath() + dataConsolidedFileName(reportItem);
 
             Consumer<String> splitLineContent = l -> reportItem.receiveValues(l.split(separator));
 

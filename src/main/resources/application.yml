@@ -1,3 +1,5 @@
 consolidated:
   data:
     separator: ":"
+
+basePath:
