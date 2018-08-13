@@ -4,13 +4,13 @@
 
 > A sales file parser
 
-# Running
+### Running
 
 ```bash
     mvn spring-boot:run
 ```
 
-# Execute Tests
+### Execute Tests
 
 ```bash
     mvn clean verify
