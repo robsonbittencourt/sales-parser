@@ -27,7 +27,7 @@ public class FileProcessScheduler {
     @Autowired
     private List<DataAnalisys> posActions;
 
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 10000)
     public void processPaths() {
         fileDirectoryService.getDirectory("/data");
         fileDirectoryService.getDirectory("/data/in");
