@@ -35,9 +35,7 @@ public class SalesmanQuantity extends SalesReportItem {
     public String allValues() {
         StringBuilder sb = new StringBuilder();
 
-        sellers.stream().forEach(c -> {
-            sb.append(c.getCpf()).append(separator).append(c.getName()).append(separator).append(c.getSalary()).append(System.lineSeparator());
-        });
+        sellers.stream().forEach(c -> sb.append(c.getCpf()).append(separator).append(c.getName()).append(separator).append(c.getSalary()).append(System.lineSeparator()));
 
         return sb.toString();
     }

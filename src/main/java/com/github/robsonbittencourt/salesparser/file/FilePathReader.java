@@ -19,8 +19,6 @@ public class FilePathReader {
 
         File directory = new File(fileBasePathService.getBasePath() + "/data/in");
 
-        File[] files = directory.listFiles();
-
         for (File file : directory.listFiles()) {
             if (isDatFile(file)) {
                 datFilesPaths.add(file.getAbsolutePath());

@@ -39,7 +39,7 @@ public class FileParser {
     }
 
     private void processLines(String path) {
-        Consumer<String> consumeLine = (line) -> {
+        Consumer<String> consumeLine = line -> {
             String code = extractDataTypeId(line);
 
             DataType entry = DataTypes.getByCode(code).parseLine(line);
@@ -57,7 +57,7 @@ public class FileParser {
     private void moveProcessedFile(String path) {
         File destinationFolder = fileDirectoryService.getDirectory("/data/processed/");
 
-        String fileName = path.substring(path.lastIndexOf("/") + 1, path.length());
+        String fileName = path.substring(path.lastIndexOf('/') + 1);
         fileName = LocalDateTime.now().toString() + "-" + fileName;
 
         fileMoveService.moveFile(path, destinationFolder.getPath() + "/" + fileName);

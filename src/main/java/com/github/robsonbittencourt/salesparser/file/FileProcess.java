@@ -17,7 +17,7 @@ public class FileProcess {
     public Future<String> process(String path) {
         fileParser.readFile(path);
 
-        return new AsyncResult<String>("done");
+        return new AsyncResult<>("done");
     }
 
 }

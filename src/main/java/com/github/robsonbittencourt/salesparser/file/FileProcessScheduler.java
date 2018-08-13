@@ -54,7 +54,7 @@ public class FileProcessScheduler {
     private void processFiles(List<String> paths) {
         List<Future<String>> readFilesFuture = paths.stream().map(p -> fileProcess.process(p)).collect(Collectors.toList());
         while (true) {
-            boolean hasFutureNotCompleted = readFilesFuture.stream().filter(r -> !r.isDone()).findAny().isPresent();
+            boolean hasFutureNotCompleted = readFilesFuture.stream().anyMatch(r -> !r.isDone());
 
             if (!hasFutureNotCompleted) {
                 break;

@@ -34,9 +34,7 @@ public class CustomerQuantity extends SalesReportItem {
     public String allValues() {
         StringBuilder sb = new StringBuilder();
 
-        customers.stream().forEach(c -> {
-            sb.append(c.getCnpj()).append(separator).append(c.getName()).append(separator).append(c.getBusinessArea()).append(System.lineSeparator());
-        });
+        customers.stream().forEach(c -> sb.append(c.getCnpj()).append(separator).append(c.getName()).append(separator).append(c.getBusinessArea()).append(System.lineSeparator()));
 
         return sb.toString();
     }
